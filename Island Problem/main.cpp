@@ -1,6 +1,6 @@
 /*
 Author: Kevin Deming
-Last Edit Date: 2/21/2020
+Last Edit Date: 2/25/2020
 Description: This code is meant to be an example of my island problem solution. It currently tests binary (0,1) maps for islands of 1's.
 For more information on the method a write up and explination is avalible on my git page.
 www.github.com/idot107
@@ -13,7 +13,9 @@ Notes:
   
 2) Making it able to read more than 1 file or be able to select the file is a feature to be added.
 
-3) Multithreading the process so that folders of maps can be read efficiently.
+3) Make the input only require the file and be able to adjust for the size of the map automatically.
+
+4) Multithreading the process so that folders of maps can be read efficiently.
 
 */
 
@@ -257,7 +259,7 @@ void readMap(std::vector< std::vector<int> > &mapVector)
 			map[rowCheck][0].refNumber = islandA;
 			map[rowCheck][0].yCoord = a;
 		}
-
+		
 		//Case for middle symbols.
 		for (int b = 1; b < width-1; b++)
 		{
@@ -389,10 +391,13 @@ void readMap(std::vector< std::vector<int> > &mapVector)
 	//Run through island list.
 	for (int i = 0; i < (width*width / 2); i++)
 	{
-		std::cout << "Island #" << i << ": ";
 		//Check if this list has values(aka is an island)
-		if (!islands[i].empty())
+		if (islands[i].size() > 0)
 		{
+			//Print out the values of each island to confirm it works.
+			/*
+			std::cout << "Island #" << i << ": ";
+
 			for (auto v : islands[i])
 			{
 				row = v / width;
@@ -400,8 +405,12 @@ void readMap(std::vector< std::vector<int> > &mapVector)
 
 				std::cout << "Row: " << row << " Column: " << column << ", ";
 			}
+			std::cout << std::endl;
+			*/
+
 			//Add to island count
 			islandCount++;
+
 			//Check smallest and biggest island
 			if (islands[i].size() < smallest)
 			{
@@ -418,11 +427,12 @@ void readMap(std::vector< std::vector<int> > &mapVector)
 			}
 
 		}
-		std::cout << std::endl;
+		
 	}
 
 	//print out results
 	std::cout << "Results:" << std::endl << "-------------" << std::endl;
+	std::cout << "Size: " << width << "x" << height << std::endl;
 	std::cout << "Number of Islands: " << islandCount << std::endl;
 	std::cout << "Biggest Island: " << biggest << std::endl;
 	std::cout << "Smallest Island: " << smallest << std::endl;
